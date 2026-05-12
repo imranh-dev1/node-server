@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from "http";
-import { readProduct } from "../service/product.service";
+import { readProduct, writeProduct } from "../service/product.service";
 import type { Tproduct } from "../types/product.type";
 import { bodyParser } from "../utility/body.parser";
 
@@ -33,8 +33,40 @@ export const productController = async (req: IncomingMessage, res: ServerRespons
         }))
 
     } else if (url === "/products" && method === "POST") {
-        const body = await bodyParser(req);
-        console.log(body)
+        const products = readProduct()
+        const newProduct = await bodyParser(req);
+        // console.log(body)
+        products.push(newProduct)
+        writeProduct(products)
 
+        res.writeHead(200, { 'Content-Type': 'application/json' })
+        res.end(JSON.stringify({
+            meassage: "product created sucsessfully",
+            newProduct: newProduct
+        }))
+    } else if (method === "PUT" && id !== null) {
+        const products = readProduct()
+        const updatedProductData = await bodyParser(req);
+
+        const index = products.findIndex((p: Tproduct) => p.id === id)
+        // console.log(index)
+        // console.log(products[index])
+        if (index < 0) {
+            res.writeHead(404, { 'Content-Type': 'application/json' })
+            res.end(JSON.stringify({
+                meassage: "product not found..!",
+                product: null,
+            }))
+        }
+
+        products[index] = { id: products[index].id, ...updatedProductData }
+        // console.log(products[index])
+        writeProduct(products)
+
+        res.writeHead(200, { 'Content-Type': 'application/json' })
+        res.end(JSON.stringify({
+            meassage: "product updated sucsessfully",
+            updatedProduct: products[index]
+        }))
     }
 }
