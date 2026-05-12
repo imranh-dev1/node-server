@@ -1,10 +1,11 @@
 import type { IncomingMessage, ServerResponse } from "http";
 import { readProduct } from "../service/product.service";
 import type { Tproduct } from "../types/product.type";
+import { bodyParser } from "../utility/body.parser";
 
 
 
-export const productController = (req: IncomingMessage, res: ServerResponse) => {
+export const productController = async (req: IncomingMessage, res: ServerResponse) => {
     const url = req.url;
     const method = req.method;
 
@@ -18,8 +19,9 @@ export const productController = (req: IncomingMessage, res: ServerResponse) => 
     if (url === "/products" && method === "GET") {
         res.writeHead(200, { 'Content-Type': 'application/json' })
         res.end(JSON.stringify({
-            meassage: "This is services route", products,
+            meassage: "This is products route", products,
         }))
+
     } else if (method === "GET" && id !== null) {
         const products = readProduct()
         // console.log(products)
@@ -27,9 +29,12 @@ export const productController = (req: IncomingMessage, res: ServerResponse) => 
         // console.log(product)
         res.writeHead(200, { 'Content-Type': 'application/json' })
         res.end(JSON.stringify({
-            meassage: "This is one service route", product,
+            meassage: "This is one products route", product,
         }))
+
     } else if (url === "/products" && method === "POST") {
+        const body = await bodyParser(req);
+        console.log(body)
 
     }
 }
