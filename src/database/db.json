@@ -25,15 +25,15 @@
     },
     {
         "id": 3,
-        "name": "Modern Office Chair",
-        "category": "Furniture",
-        "brand": "ComfortLine",
-        "price": 199,
-        "currency": "USD",
-        "stock": 12,
-        "rating": 4.8,
-        "image": "https://example.com/images/chair.jpg",
-        "description": "Ergonomic office chair with adjustable lumbar support."
+        "name": "Smart Fitness Watch 654",
+        "category": "Wearables 254",
+        "brand": "FitPro 5454",
+        "price": 89.9,
+        "currency": "USDD",
+        "stock": 35,
+        "rating": 5,
+        "image": "https://example.com/images/watch-1.jpg",
+        "description": "Track your fitness, heart rate, and daily activities."
     },
     {
         "id": 4,

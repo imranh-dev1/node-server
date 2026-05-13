@@ -58,7 +58,6 @@ export const productController = async (req: IncomingMessage, res: ServerRespons
                 product: null,
             }))
         }
-
         products[index] = { id: products[index].id, ...updatedProductData }
         // console.log(products[index])
         writeProduct(products)
@@ -67,6 +66,27 @@ export const productController = async (req: IncomingMessage, res: ServerRespons
         res.end(JSON.stringify({
             meassage: "product updated sucsessfully",
             updatedProduct: products[index]
+        }))
+    } else if (method === "DELETE" && id !== null) {
+        const products = readProduct()
+        const index = products.findIndex((p: Tproduct) => p.id === id)
+        console.log(index)
+        // console.log(products[index])
+        if (index < 0) {
+            res.writeHead(404, { 'Content-Type': 'application/json' })
+            res.end(JSON.stringify({
+                meassage: "product not found..!",
+                product: null,
+            }))
+        }
+
+        products.splice(index, 1)
+        // console.log(products)
+        writeProduct(products)
+        res.writeHead(200, { 'Content-Type': 'application/json' })
+        res.end(JSON.stringify({
+            meassage: "product Deleted sucsessfully",
+            deletdProduct: null
         }))
     }
 }
